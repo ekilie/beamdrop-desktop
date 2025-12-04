@@ -7,14 +7,43 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div class="input-container" id="input-container">
-      <input
-        id="urlInput"
-        type="url"
-        placeholder="Enter BeamDrop URL"
-        aria-label="BeamDrop URL input"
-      />
-      <button onclick="openURL()" aria-label="Open URL">Open</button>
+    <div class="app-container" id="app-container">
+      <div class="header">
+        <div class="logo-container">
+          
+          <h1 class="app-title">BeamDrop</h1>
+        </div>
+        <p class="app-subtitle">Enter a URL to get started</p>
+      </div>
+
+      <div class="input-container" id="input-container">
+        <div class="input-wrapper">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <input
+            id="urlInput"
+            type="url"
+            placeholder="https://example.com"
+            aria-label="BeamDrop URL input"
+          />
+        </div>
+        <button id="openButton" onclick="openURL()" aria-label="Open URL">
+          <span class="button-text">Open</span>
+          <svg class="button-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="loading-spinner" id="loadingSpinner" style="display: none;">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+      </div>
+
+      <div class="error-message" id="errorMessage" style="display: none;"></div>
     </div>
 
     <iframe
@@ -27,25 +56,66 @@
 
     <script>
       async function openURL() {
-        const url = document.getElementById("urlInput").value;
-        if (!url.trim()) {
-          alert("Please enter a URL");
+        const url = document.getElementById("urlInput").value.trim();
+        const errorMessage = document.getElementById("errorMessage");
+        const loadingSpinner = document.getElementById("loadingSpinner");
+        const openButton = document.getElementById("openButton");
+        
+        // Hide previous errors
+        errorMessage.style.display = "none";
+        errorMessage.textContent = "";
+        
+        if (!url) {
+          showError("Please enter a URL");
           return;
         }
+
+        // Validate URL format
+        try {
+          new URL(url);
+        } catch (e) {
+          showError("Please enter a valid URL (e.g., https://example.com)");
+          return;
+        }
+
+        // Show loading state
+        loadingSpinner.style.display = "flex";
+        openButton.disabled = true;
+        openButton.classList.add("loading");
+
         try {
           await window.backend.App.SaveURL(url);
           const viewer = document.getElementById("viewer");
           const inputContainer = document.getElementById("input-container");
+          const appContainer = document.getElementById("app-container");
           const body = document.body;
           
           viewer.src = url;
           viewer.classList.remove("inactive");
           viewer.classList.add("active");
           inputContainer.classList.add("fullscreen");
+          appContainer.classList.add("hidden");
           body.classList.add("fullscreen-mode");
         } catch (error) {
-          alert("Error loading URL: " + error.message);
+          showError("Error loading URL: " + error.message);
+        } finally {
+          loadingSpinner.style.display = "none";
+          openButton.disabled = false;
+          openButton.classList.remove("loading");
         }
+      }
+
+      function showError(message) {
+        const errorMessage = document.getElementById("errorMessage");
+        errorMessage.textContent = message;
+        errorMessage.style.display = "block";
+        setTimeout(() => {
+          errorMessage.style.opacity = "0";
+          setTimeout(() => {
+            errorMessage.style.display = "none";
+            errorMessage.style.opacity = "1";
+          }, 300);
+        }, 4000);
       }
 
       async function init() {
@@ -55,12 +125,14 @@
             document.getElementById("urlInput").value = last;
             const viewer = document.getElementById("viewer");
             const inputContainer = document.getElementById("input-container");
+            const appContainer = document.getElementById("app-container");
             const body = document.body;
             
             viewer.src = last;
             viewer.classList.remove("inactive");
             viewer.classList.add("active");
             inputContainer.classList.add("fullscreen");
+            appContainer.classList.add("hidden");
             body.classList.add("fullscreen-mode");
           }
         } catch (error) {
@@ -68,7 +140,7 @@
         }
       }
 
-      // Allow Enter key to open URL
+      // Allows Enter key to open URL
       document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("urlInput").addEventListener("keypress", (e) => {
           if (e.key === "Enter") {
