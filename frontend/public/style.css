@@ -75,6 +75,18 @@
   box-sizing: border-box;
 }
 
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+html.fullscreen-mode {
+  overflow: hidden;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -88,11 +100,14 @@ body {
   min-width: 320px;
   position: relative;
   overflow-x: hidden;
+  width: 100%;
+  height: 100vh;
 }
 
 body.fullscreen-mode {
   justify-content: flex-start;
   background: hsl(var(--background));
+  overflow: hidden;
 }
 
 .container {
@@ -118,6 +133,7 @@ body.fullscreen-mode {
   opacity: 0;
   pointer-events: none;
   transform: translateY(-20px);
+  display: none;
 }
 
 .header {
@@ -169,10 +185,7 @@ body.fullscreen-mode {
 
 .input-container {
   padding: 0;
-  background-color: hsl(var(--card));
   border-radius: calc(var(--radius) * 1.5);
-  box-shadow: 0 10px 40px -10px hsl(var(--foreground) / 0.1), 
-              0 0 0 1px hsl(var(--border) / 0.5);
   display: flex;
   gap: 0.75rem;
   align-items: stretch;
@@ -190,7 +203,7 @@ body.fullscreen-mode {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 1000;
   width: 100%;
   max-width: none;
   border-radius: 0;
@@ -376,24 +389,29 @@ button:hover .button-icon {
 /* Viewer Container */
 #viewer {
   width: 100%;
+  height: 100%;
   border: none;
   margin: 0;
   padding: 0;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
+  display: block;
 }
 
 #viewer.active {
-  position: fixed;
+  position: fixed !important;
   opacity: 1;
   pointer-events: auto;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 50;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 100;
   animation: fadeIn 0.4s ease;
+  display: block !important;
 }
 
 @keyframes fadeIn {
@@ -406,7 +424,8 @@ button:hover .button-icon {
 }
 
 #viewer.inactive {
-  display: none;
+  display: none !important;
+  visibility: hidden;
 }
 
 /* Scrollbar Styling */

@@ -84,18 +84,27 @@
         openButton.classList.add("loading");
 
         try {
-          await window.backend.App.SaveURL(url);
+          await localStorage.setItem("lastURL", url);
           const viewer = document.getElementById("viewer");
           const inputContainer = document.getElementById("input-container");
           const appContainer = document.getElementById("app-container");
           const body = document.body;
+          const html = document.documentElement;
           
-          viewer.src = url;
-          viewer.classList.remove("inactive");
-          viewer.classList.add("active");
+          // Set fullscreen mode first
+          body.classList.add("fullscreen-mode");
+          html.classList.add("fullscreen-mode");
           inputContainer.classList.add("fullscreen");
           appContainer.classList.add("hidden");
-          body.classList.add("fullscreen-mode");
+          
+          // Then activate and load the viewer
+          viewer.classList.remove("inactive");
+          viewer.classList.add("active");
+          viewer.src = url;
+          
+          // Ensure iframe dimensions
+          viewer.style.width = "100vw";
+          viewer.style.height = "100vh";
         } catch (error) {
           showError("Error loading URL: " + error.message);
         } finally {
@@ -120,20 +129,29 @@
 
       async function init() {
         try {
-          const last = await window.backend.App.LoadURL();
+          const last = localStorage.getItem("lastURL");
           if (last) {
             document.getElementById("urlInput").value = last;
             const viewer = document.getElementById("viewer");
             const inputContainer = document.getElementById("input-container");
             const appContainer = document.getElementById("app-container");
             const body = document.body;
+            const html = document.documentElement;
             
-            viewer.src = last;
-            viewer.classList.remove("inactive");
-            viewer.classList.add("active");
+            // Set fullscreen mode first
+            body.classList.add("fullscreen-mode");
+            html.classList.add("fullscreen-mode");
             inputContainer.classList.add("fullscreen");
             appContainer.classList.add("hidden");
-            body.classList.add("fullscreen-mode");
+            
+            // Then activate and load the viewer
+            viewer.classList.remove("inactive");
+            viewer.classList.add("active");
+            viewer.src = last;
+            
+            // Ensure iframe dimensions
+            viewer.style.width = "100vw";
+            viewer.style.height = "100vh";
           }
         } catch (error) {
           console.error("Error initializing:", error);
