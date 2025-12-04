@@ -1,42 +1,65 @@
 <!doctype html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-    </head>
-    <body style="margin: 0; padding: 20px; font-family: sans-serif">
-        <input
-            id="urlInput"
-            placeholder="Enter BeamDrop URL"
-            style="width: 70%; padding: 10px; font-size: 16px"
-        />
-        <button onclick="openURL()" style="padding: 10px 15px; font-size: 16px">
-            Open
-        </button>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BeamDrop</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="header">
+      <input
+        id="urlInput"
+        type="url"
+        placeholder="Enter BeamDrop URL"
+        aria-label="BeamDrop URL input"
+      />
+      <button onclick="openURL()" aria-label="Open URL">Open</button>
+    </div>
 
-        <iframe
-            id="viewer"
-            style="width: 100%; height: 85vh; border: none; margin-top: 10px"
-        >
-        </iframe>
+    <iframe
+      id="viewer"
+      title="BeamDrop Viewer"
+      sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+    >
+    </iframe>
 
-        <script>
-            async function openURL() {
-                const url = document.getElementById("urlInput").value;
-                await window.backend.App.SaveURL(url);
+    <script>
+      async function openURL() {
+        const url = document.getElementById("urlInput").value;
+        if (!url.trim()) {
+          alert("Please enter a URL");
+          return;
+        }
+        try {
+          await window.backend.App.SaveURL(url);
+          document.getElementById("viewer").src = url;
+        } catch (error) {
+          alert("Error loading URL: " + error.message);
+        }
+      }
 
-                document.getElementById("viewer").src = url;
-            }
+      async function init() {
+        try {
+          const last = await window.backend.App.LoadURL();
+          if (last) {
+            document.getElementById("urlInput").value = last;
+            document.getElementById("viewer").src = last;
+          }
+        } catch (error) {
+          console.error("Error initializing:", error);
+        }
+      }
 
-            async function init() {
-                const last = await window.backend.App.LoadURL();
-                if (last) {
-                    document.getElementById("urlInput").value = last;
-                    document.getElementById("viewer").src = last;
-                }
-            }
-
-            init();
-        </script>
-    </body>
+      // Allow Enter key to open URL
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("urlInput").addEventListener("keypress", (e) => {
+          if (e.key === "Enter") {
+            openURL();
+          }
+        });
+        init();
+      });
+    </script>
+  </body>
 </html>
