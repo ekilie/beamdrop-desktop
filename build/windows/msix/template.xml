@@ -10,13 +10,13 @@
     <Installer
         Path="beamdrop-desktop"
         Arguments=""
-        InstallLocation="C:\Program Files\My Company\BeamDrop">
+        InstallLocation="C:\Program Files\ekilie\BeamDrop">
     </Installer>
     <PackageInformation
         PackageName="BeamDrop"
         PackageDisplayName="BeamDrop"
-        PublisherName="CN=My Company"
-        PublisherDisplayName="My Company"
+        PublisherName="CN=ekilie"
+        PublisherDisplayName="ekilie"
         Version="0.1.0.0"
         PackageDescription="BeamDrop Description">
         <Capabilities>
@@ -42,7 +42,7 @@
         <Properties>
             <Framework>false</Framework>
             <DisplayName>BeamDrop</DisplayName>
-            <PublisherDisplayName>My Company</PublisherDisplayName>
+            <PublisherDisplayName>ekilie</PublisherDisplayName>
             <Description>BeamDrop Description</Description>
             <Logo>Assets\AppIcon.png</Logo>
         </Properties>

@@ -33,6 +33,8 @@ func main() {
 
 	app.Window.NewWithOptions(application.WebviewWindowOptions{
 		Title: "BeamDrop",
+		MinWidth: 2000,
+		MinHeight: 600,
 		Mac: application.MacWindow{
 			InvisibleTitleBarHeight: 50,
 			Backdrop:                application.MacBackdropTranslucent,

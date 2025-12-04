@@ -7,13 +7,13 @@
   
   <Identity 
     Name="com.wails.beamdrop-desktop"
-    Publisher="CN=My Company"
+    Publisher="CN=ekilie"
     Version="0.1.0.0" 
     ProcessorArchitecture="x64" />
   
   <Properties>
     <DisplayName>BeamDrop</DisplayName>
-    <PublisherDisplayName>My Company</PublisherDisplayName>
+    <PublisherDisplayName>ekilie</PublisherDisplayName>
     <Description>BeamDrop Description</Description>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

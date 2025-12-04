@@ -20,10 +20,10 @@ Unicode true
 ## The following information is taken from the wails_tools.nsh file, but they can be overwritten here.
 ####
 ## !define INFO_PROJECTNAME    "my-project" # Default "beamdrop-desktop"
-## !define INFO_COMPANYNAME    "My Company" # Default "My Company"
+## !define INFO_COMPANYNAME    "ekilie" # Default "ekilie"
 ## !define INFO_PRODUCTNAME    "BeamDrop Name" # Default "BeamDrop"
 ## !define INFO_PRODUCTVERSION "1.0.0"     # Default "0.1.0"
-## !define INFO_COPYRIGHT      "(c) Now, My Company" # Default "© now, My Company"
+## !define INFO_COPYRIGHT      "(c) Now, ekilie" # Default "© now, ekilie"
 ###
 ## !define PRODUCT_EXECUTABLE  "Application.exe"      # Default "${INFO_PROJECTNAME}.exe"
 ## !define UNINST_KEY_NAME     "UninstKeyInRegistry"  # Default "${INFO_COMPANYNAME}${INFO_PRODUCTNAME}"
