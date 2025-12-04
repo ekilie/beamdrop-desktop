@@ -80,15 +80,16 @@ body {
   padding: 0;
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-}
-
-/* Container and Layout */
-body {
   display: flex;
-  justify-items: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   min-height: 100vh;
   min-width: 320px;
+}
+
+body.fullscreen-mode {
+  justify-content: flex-start;
 }
 
 .container {
@@ -100,16 +101,18 @@ body {
 }
 
 .input-container {
-  padding: 1.5rem;
+  padding: 2rem;
   background-color: hsl(var(--card));
-  border-bottom: 1px solid hsl(var(--border));
-  box-shadow: var(--shadow-subtle);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-medium);
   display: flex;
   gap: 0.75rem;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   transition: var(--transition-smooth);
+  width: 100%;
+  max-width: 700px;
 }
 
 .input-container.fullscreen {
@@ -119,7 +122,11 @@ body {
   right: 0;
   z-index: 100;
   width: 100%;
+  max-width: none;
+  border-radius: 0;
   padding: 1rem;
+  box-shadow: var(--shadow-subtle);
+  border-bottom: 1px solid hsl(var(--border));
 }
 
 #urlInput {
@@ -186,16 +193,10 @@ button:focus {
 
 /* Viewer Container */
 #viewer {
-  flex: 1;
   width: 100%;
   border: none;
   margin: 0;
   padding: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   opacity: 0;
   pointer-events: none;
   transition: var(--transition-smooth);
@@ -213,10 +214,7 @@ button:focus {
 }
 
 #viewer.inactive {
-  flex: 1;
-  position: static;
-  opacity: 1;
-  pointer-events: auto;
+  display: none;
 }
 
 /* Scrollbar Styling */
@@ -244,6 +242,10 @@ button:focus {
   .input-container {
     padding: 1rem;
     flex-direction: column;
+  }
+
+  .input-container.fullscreen {
+    padding: 0.75rem;
   }
 
   #urlInput {

@@ -35,12 +35,14 @@
         try {
           await window.backend.App.SaveURL(url);
           const viewer = document.getElementById("viewer");
-          const header = document.getElementById("input-container");
+          const inputContainer = document.getElementById("input-container");
+          const body = document.body;
           
           viewer.src = url;
           viewer.classList.remove("inactive");
           viewer.classList.add("active");
-          header.classList.add("fullscreen");
+          inputContainer.classList.add("fullscreen");
+          body.classList.add("fullscreen-mode");
         } catch (error) {
           alert("Error loading URL: " + error.message);
         }
@@ -52,12 +54,14 @@
           if (last) {
             document.getElementById("urlInput").value = last;
             const viewer = document.getElementById("viewer");
-            const header = document.getElementById("header");
+            const inputContainer = document.getElementById("input-container");
+            const body = document.body;
             
             viewer.src = last;
             viewer.classList.remove("inactive");
             viewer.classList.add("active");
-            header.classList.add("fullscreen");
+            inputContainer.classList.add("fullscreen");
+            body.classList.add("fullscreen-mode");
           }
         } catch (error) {
           console.error("Error initializing:", error);
