@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div class="header" id="header">
+    <div class="input-container" id="input-container">
       <input
         id="urlInput"
         type="url"
@@ -35,7 +35,7 @@
         try {
           await window.backend.App.SaveURL(url);
           const viewer = document.getElementById("viewer");
-          const header = document.getElementById("header");
+          const header = document.getElementById("input-container");
           
           viewer.src = url;
           viewer.classList.remove("inactive");

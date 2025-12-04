@@ -85,7 +85,8 @@ body {
 /* Container and Layout */
 body {
   display: flex;
-  flex-direction: column;
+  justify-items: center;
+  align-items: center;
   min-height: 100vh;
   min-width: 320px;
 }
@@ -93,12 +94,12 @@ body {
 .container {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  justify-items: center;
+  align-items: center;
   width: 100%;
 }
 
-/* Header with Input and Button */
-.header {
+.input-container {
   padding: 1.5rem;
   background-color: hsl(var(--card));
   border-bottom: 1px solid hsl(var(--border));
@@ -111,7 +112,7 @@ body {
   transition: var(--transition-smooth);
 }
 
-.header.fullscreen {
+.input-container.fullscreen {
   position: fixed;
   top: 0;
   left: 0;
@@ -240,7 +241,7 @@ button:focus {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .header {
+  .input-container {
     padding: 1rem;
     flex-direction: column;
   }
