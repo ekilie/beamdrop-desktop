@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div class="header">
+    <div class="header" id="header">
       <input
         id="urlInput"
         type="url"
@@ -19,6 +19,7 @@
 
     <iframe
       id="viewer"
+      class="inactive"
       title="BeamDrop Viewer"
       sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
     >
@@ -33,7 +34,13 @@
         }
         try {
           await window.backend.App.SaveURL(url);
-          document.getElementById("viewer").src = url;
+          const viewer = document.getElementById("viewer");
+          const header = document.getElementById("header");
+          
+          viewer.src = url;
+          viewer.classList.remove("inactive");
+          viewer.classList.add("active");
+          header.classList.add("fullscreen");
         } catch (error) {
           alert("Error loading URL: " + error.message);
         }
@@ -44,7 +51,13 @@
           const last = await window.backend.App.LoadURL();
           if (last) {
             document.getElementById("urlInput").value = last;
-            document.getElementById("viewer").src = last;
+            const viewer = document.getElementById("viewer");
+            const header = document.getElementById("header");
+            
+            viewer.src = last;
+            viewer.classList.remove("inactive");
+            viewer.classList.add("active");
+            header.classList.add("fullscreen");
           }
         } catch (error) {
           console.error("Error initializing:", error);
