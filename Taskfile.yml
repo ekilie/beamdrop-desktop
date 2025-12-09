@@ -31,4 +31,11 @@ tasks:
     summary: Runs the application in development mode
     cmds:
       - wails3 dev -config ./build/config.yml -port {{.VITE_PORT}}
+  
+  dmg:
+    summary: Creates a DMG installer for macOS
+    deps:
+      - package
+    cmds:
+      - bash create-dmg.sh
 
